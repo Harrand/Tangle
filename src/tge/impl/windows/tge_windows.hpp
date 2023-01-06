@@ -5,6 +5,8 @@
 
 namespace tge::impl
 {
+	constexpr char wndclass_name[] = "Tangle Windowing Library";
+
 	LRESULT wndproc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 	void initialise_windows();
 	void terminate_windows();
