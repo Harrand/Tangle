@@ -20,6 +20,11 @@ namespace tge::impl
 		);
 		hdk::assert(this->hwnd != nullptr, "Window creation failed. GetLastError() returns %lu", GetLastError());
 		this->hdc = GetDC(this->hwnd);
+		if(info.window_flags & window_flag::opengl)
+		{
+			hdk::report("Setting up window for modern opengl.");
+			this->impl_init_opengl();
+		}
 		ShowWindow(this->hwnd, SW_SHOW);
 	}
 
@@ -76,9 +81,8 @@ namespace tge::impl
 
 //--------------------------------------------------------------------------------------------------
 
-	HWND window_winapi::impl_get_hwnd() const
+	void window_winapi::impl_init_opengl()
 	{
-		return this->hwnd;
 	}
 
 //--------------------------------------------------------------------------------------------------

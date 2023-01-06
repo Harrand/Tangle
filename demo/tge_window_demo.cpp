@@ -7,7 +7,8 @@ int main()
 	{
 		tge::window wnd
 		{{
-			.title = "Tangle Window Demo"
+			.title = "Tangle Window Demo",
+			.window_flags = tge::window_flag::opengl
 		}};
 		while(!wnd.is_close_requested())
 		{

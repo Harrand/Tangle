@@ -6,6 +6,7 @@ string(REGEX MATCH "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+" TGE_VERSION ${TGE_VERSION_TX
 
 project(tangle VERSION ${TGE_VERSION}
 	DESCRIPTION "C++20 Windowing Library")
+include(cmake/platform.cmake)
 include(cmake/project.cmake)
 
 add_subdirectory(lib/HDK)
@@ -25,6 +26,9 @@ hdk_add_library(TARGET tangle
 	src/tge/impl/windows/window.hpp
 	)
 target_include_directories(tangle PUBLIC "${PROJECT_SOURCE_DIR}/src")
+if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
+	configure_windows(tangle)
+endif()
 
 message(STATUS "Tangle v${TGE_VERSION}")
 add_subdirectory(lib)

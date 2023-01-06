@@ -4,10 +4,19 @@
 
 namespace tge
 {
+	namespace window_flag
+	{
+		enum flag_bit
+		{
+			none = 0x00,
+			opengl = 0x01
+		};
+	}
 	struct window_info
 	{
 		const char* title = "Untitled";
 		hdk::vec2ui dimensions = {800u, 600u};
+		window_flag::flag_bit window_flags = window_flag::none;
 	};
 
 	template<typename T>

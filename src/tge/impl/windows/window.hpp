@@ -24,7 +24,7 @@ namespace tge::impl
 		// tge::window_api<> end
 		friend LRESULT wndproc(HWND, UINT, WPARAM, LPARAM);
 	private:
-		HWND impl_get_hwnd() const;
+		void impl_init_opengl();
 		void impl_request_close();
 
 		HWND hwnd = nullptr;

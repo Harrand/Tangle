@@ -18,7 +18,7 @@ namespace tge
 	{
 		if constexpr(tge::get_platform() == tge::platform::windows)
 		{
-			tge::impl::initialise_windows();
+			tge::impl::terminate_windows();
 		}
 		hdk::terminate();
 	}
