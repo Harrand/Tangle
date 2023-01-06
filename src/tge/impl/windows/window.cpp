@@ -3,6 +3,7 @@
 #include "tge/impl/windows/tge_windows.hpp"
 #include "hdk/debug.hpp"
 #include <dwmapi.h>
+#include <algorithm>
 
 namespace tge::impl
 {
@@ -47,6 +48,9 @@ namespace tge::impl
 			this->impl_init_opengl();
 		}
 		ShowWindow(this->hwnd, SW_SHOW);
+
+		// Empty keyboard state.
+		std::fill(this->key_state.keys_down.begin(), this->key_state.keys_down.end(), key::unknown);
 	}
 
 //--------------------------------------------------------------------------------------------------
@@ -102,15 +106,22 @@ namespace tge::impl
 
 //--------------------------------------------------------------------------------------------------
 
-bool window_winapi::make_opengl_context_current()
-{
-	hdk::assert(this->hdc != nullptr, "Tried to make window opengl context current, but the window was malformed (HDC is invalid)");
-	if(this->opengl_rc == nullptr)
+	bool window_winapi::make_opengl_context_current()
 	{
-		return false;
+		hdk::assert(this->hdc != nullptr, "Tried to make window opengl context current, but the window was malformed (HDC is invalid)");
+		if(this->opengl_rc == nullptr)
+		{
+			return false;
+		}
+		return wglMakeCurrent(this->hdc, this->opengl_rc);
 	}
-	return wglMakeCurrent(this->hdc, this->opengl_rc);
-}
+
+//--------------------------------------------------------------------------------------------------
+
+	const keyboard_state& window_winapi::get_keyboard_state() const
+	{
+		return this->key_state;
+	}
 
 //--------------------------------------------------------------------------------------------------
 
@@ -189,6 +200,15 @@ bool window_winapi::make_opengl_context_current()
 			this->hwnd = nullptr;
 		}
 	}
+
+//--------------------------------------------------------------------------------------------------
+
+	keyboard_state& window_winapi::impl_mutable_keyboard_state()
+	{
+		return this->key_state;
+	}
+
+//--------------------------------------------------------------------------------------------------
 }
 
 #endif // WIN32

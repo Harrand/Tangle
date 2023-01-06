@@ -22,17 +22,20 @@ namespace tge::impl
 		void set_dimensions(hdk::vec2ui dimensions);
 		void update();
 		bool make_opengl_context_current();
+		const keyboard_state& get_keyboard_state() const;
 		// tge::window_api<> end
 		friend LRESULT wndproc(HWND, UINT, WPARAM, LPARAM);
 	private:
 		void impl_init_opengl();
 		bool impl_is_opengl() const;
 		void impl_request_close();
+		keyboard_state& impl_mutable_keyboard_state();
 
 		HWND hwnd = nullptr;
 		HDC hdc = nullptr;
 		HGLRC opengl_rc = nullptr;
 		bool close_requested = false;
+		keyboard_state key_state = {};
 	};
 	static_assert(tge::window_api<window_winapi>);
 }

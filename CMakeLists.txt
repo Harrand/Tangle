@@ -17,8 +17,11 @@ hdk_add_library(TARGET tangle
 	src/tge/tge.cpp
 	src/tge/window.hpp
 	# tge api
+	src/tge/api/keyboard.hpp
 	src/tge/api/window.hpp
 	# tge impl (windows)
+	src/tge/impl/windows/detail/keyboard.cpp
+	src/tge/impl/windows/detail/keyboard.hpp
 	src/tge/impl/windows/detail/winapi.hpp
 	src/tge/impl/windows/tge_windows.cpp
 	src/tge/impl/windows/tge_windows.hpp

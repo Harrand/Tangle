@@ -1,7 +1,9 @@
 #ifdef _WIN32
 #include "tge/impl/windows/tge_windows.hpp"
 #include "tge/impl/windows/window.hpp"
+#include "tge/impl/windows/detail/keyboard.hpp"
 #include "hdk/debug.hpp"
+#include <algorithm>
 #include <string_view>
 
 namespace tge::impl
@@ -77,6 +79,38 @@ namespace tge::impl
 					HDC hdc = BeginPaint(hwnd, &ps);
 					FillRect(hdc, &ps.rcPaint, CreateSolidBrush(RGB(0, 0, 0)));
 					EndPaint(hwnd, &ps);
+				}
+			}
+			break;
+			case WM_KEYDOWN:
+			{
+				auto& state = get_window()->impl_mutable_keyboard_state();	
+				int virtual_keycode = wparam;
+				tge::key k = tge::impl::win_to_tge_key(virtual_keycode);
+
+				// Retrieve an iter to the first element that is not unknown, and set that value to the key.
+				const bool already_pressed = std::any_of(state.keys_down.begin(), state.keys_down.end(), [k](tge::key key){return key == k;});
+				if(k != tge::key::unknown && !already_pressed)
+				{
+					auto iter = std::find_if(state.keys_down.begin(), state.keys_down.end(), [](tge::key key){return key == tge::key::unknown;});
+					hdk::assert(iter != state.keys_down.end(), "There are too many keyboard keys down at once (max = %u)", tge::max_simultaneous_key_presses);
+					*iter = k;
+				}
+			}
+			break;
+			case WM_KEYUP:
+			{
+				auto& state = get_window()->impl_mutable_keyboard_state();	
+				int virtual_keycode = wparam;
+				tge::key k = tge::impl::win_to_tge_key(virtual_keycode);
+
+				// Retrieve an iter to the first element that is not unknown, and set that value to the key.
+				const bool not_pressed = std::none_of(state.keys_down.begin(), state.keys_down.end(), [k](tge::key key){return key == k;});
+				if(k != tge::key::unknown && !not_pressed)
+				{
+					auto iter = std::find_if(state.keys_down.begin(), state.keys_down.end(), [k](tge::key key){return key == k;});
+					hdk::assert(iter != state.keys_down.end(), "Key that's meant to have already been pressed (now up) is not considered pressed. Logic error");
+					*iter = tge::key::unknown;
 				}
 			}
 			break;

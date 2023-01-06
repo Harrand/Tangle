@@ -1,5 +1,6 @@
 #ifndef TANGLE_API_WINDOW_HPP
 #define TANGLE_API_WINDOW_HPP
+#include "tge/api/keyboard.hpp"
 #include "hdk/data/vector.hpp"
 
 namespace tge
@@ -34,6 +35,7 @@ namespace tge
 		{t.set_dimensions(dims)} -> std::same_as<void>;
 		{t.update()} -> std::same_as<void>;
 		{t.make_opengl_context_current()} -> std::same_as<bool>;
+		{t.get_keyboard_state()} -> std::convertible_to<keyboard_state>;
 	};
 }
 
