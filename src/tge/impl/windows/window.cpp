@@ -66,7 +66,6 @@ namespace tge::impl
 		this->close_requested = GetMessage(&msg, nullptr, 0, 0) == 0;
 		if(this->close_requested)
 		{
-			hdk::report("close requested!?");
 			return;
 		}
 		TranslateMessage(&msg);
