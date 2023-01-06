@@ -30,6 +30,7 @@ namespace tge::impl
 	{
 		auto window_class = wndclass_gpuacc;
 		window_class.hInstance = GetModuleHandle(nullptr);
+		window_class.hCursor = LoadCursor(nullptr, IDC_ARROW);
 		RegisterClassExA(&window_class);
 		load_wgl_functions();
 	}
