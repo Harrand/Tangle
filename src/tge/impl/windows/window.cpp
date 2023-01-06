@@ -19,6 +19,7 @@ namespace tge::impl
 			this
 		);
 		hdk::assert(this->hwnd != nullptr, "Window creation failed. GetLastError() returns %lu", GetLastError());
+		ShowWindow(this->hwnd, SW_SHOW);
 	}
 
 //--------------------------------------------------------------------------------------------------
@@ -57,6 +58,21 @@ namespace tge::impl
 			dims[0], dims[1],
 			SWP_NOMOVE
 		);
+	}
+
+//--------------------------------------------------------------------------------------------------
+
+	void window_winapi::update()
+	{
+		MSG msg{};
+		this->close_requested = GetMessage(&msg, nullptr, 0, 0) != 0;
+		if(this->close_requested)
+		{
+			return;
+		}
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+		//SwapBuffers(this->hdc);
 	}
 }
 

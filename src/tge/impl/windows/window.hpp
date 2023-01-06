@@ -20,10 +20,11 @@ namespace tge::impl
 		bool is_close_requested() const;
 		hdk::vec2ui get_dimensions() const;
 		void set_dimensions(hdk::vec2ui dimensions);
+		void update();
 		// tge::window_api<> end
 	private:
 		HWND hwnd = nullptr;
-		window_info info;
+		bool close_requested = false;
 	};
 	static_assert(tge::window_api<window_winapi>);
 }

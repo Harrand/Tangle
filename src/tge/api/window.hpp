@@ -16,6 +16,7 @@ namespace tge
 		{t.is_close_requested()} -> std::same_as<bool>;
 		{t.get_dimensions()} -> std::same_as<hdk::vec2ui>;
 		{t.set_dimensions(dims)} -> std::same_as<void>;
+		{t.update()} -> std::same_as<void>;
 	};
 }
 

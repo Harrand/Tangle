@@ -14,6 +14,7 @@ hdk_add_library(TARGET tangle
 	SOURCES
 	src/tge/tge.hpp
 	src/tge/tge.cpp
+	src/tge/window.hpp
 	# tge api
 	src/tge/api/window.hpp
 	# tge impl (windows)
