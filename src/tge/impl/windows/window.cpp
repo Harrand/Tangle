@@ -19,6 +19,7 @@ namespace tge::impl
 			this
 		);
 		hdk::assert(this->hwnd != nullptr, "Window creation failed. GetLastError() returns %lu", GetLastError());
+		this->hdc = GetDC(this->hwnd);
 		ShowWindow(this->hwnd, SW_SHOW);
 	}
 
@@ -70,7 +71,14 @@ namespace tge::impl
 		}
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
-		//SwapBuffers(this->hdc);
+		SwapBuffers(this->hdc);
+	}
+
+//--------------------------------------------------------------------------------------------------
+
+	HWND window_winapi::impl_get_hwnd() const
+	{
+		return this->hwnd;
 	}
 
 //--------------------------------------------------------------------------------------------------

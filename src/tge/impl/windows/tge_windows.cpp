@@ -61,6 +61,13 @@ namespace tge::impl
 			case WM_DESTROY:
 				PostQuitMessage(0);
 			break;
+			case WM_PAINT:
+			{
+				PAINTSTRUCT ps;
+				HDC hdc = BeginPaint(get_window()->impl_get_hwnd(), &ps);
+				FillRect(hdc, &ps.rcPaint, CreateSolidBrush(RGB(0, 0, 0)));
+			}
+			break;
 		}
 		return DefWindowProc(hwnd, msg, wparam, lparam);
 	}
