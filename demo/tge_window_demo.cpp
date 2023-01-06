@@ -1,6 +1,5 @@
 #include "tge/tge.hpp"
 #include "tge/window.hpp"
-#include <gl/GL.h>
 
 int main()
 {
