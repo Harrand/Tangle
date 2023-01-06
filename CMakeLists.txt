@@ -16,6 +16,11 @@ hdk_add_library(TARGET tangle
 	src/tge/tge.cpp
 	# tge api
 	src/tge/api/window.hpp
+	# tge impl (windows)
+	src/tge/impl/windows/tge_windows.cpp
+	src/tge/impl/windows/tge_windows.hpp
+	src/tge/impl/windows/window.cpp
+	src/tge/impl/windows/window.hpp
 	)
 target_include_directories(tangle PUBLIC "${PROJECT_SOURCE_DIR}/src")
 
