@@ -83,6 +83,57 @@ namespace tge::impl
 
 	void window_winapi::impl_init_opengl()
 	{
+		tge::impl::wgl_function_data wgl = tge::impl::get_wgl_functions();
+		hdk::assert(wgl != wgl_function_data{}, "Attempting to create modern OpenGL context for window, but WGL function data has not been loaded properly. Did you forget to `tge::initialise()`?");
+		// First, set pixel format.
+		{
+			int attrib[] =
+			{
+				WGL_DRAW_TO_WINDOW_ARB, GL_TRUE,
+				WGL_SUPPORT_OPENGL_ARB, GL_TRUE,
+				WGL_DOUBLE_BUFFER_ARB, GL_TRUE,
+				WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
+				WGL_COLOR_BITS_ARB, 24,
+				WGL_DEPTH_BITS_ARB, 24,
+				WGL_STENCIL_BITS_ARB, 8,
+				WGL_FRAMEBUFFER_SRGB_CAPABLE_ARB, GL_TRUE,
+				0
+			};
+			int format;
+			UINT formats;
+			if(!wgl.wgl_choose_pixel_format_arb(this->hdc, attrib, nullptr, 1, &format, &formats) || formats == 0)
+			{
+				hdk::error("Modern OpenGL does not support the default required pixel format. Your graphics card is probably too old to support modern OpenGL.");
+			}
+			PIXELFORMATDESCRIPTOR dsc =
+			{
+				.nSize = sizeof(PIXELFORMATDESCRIPTOR)
+			};
+			bool ok = DescribePixelFormat(this->hdc, format, sizeof(dsc), &dsc);
+			hdk::assert(ok, "Failed to describe OpenGL pixel format. No idea why not, I'm afraid.");
+			if(!SetPixelFormat(this->hdc, format, &dsc))
+			{
+				hdk::error("Failed to set modern OpenGL pixel format.");
+			}
+		}
+
+		// Second, create modern opengl context.
+		{
+			int attrib[] =
+			{
+				WGL_CONTEXT_MAJOR_VERSION_ARB, 4,
+				WGL_CONTEXT_MINOR_VERSION_ARB, 5,
+				WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_CORE_PROFILE_BIT_ARB,
+				#if HDK_DEBUG
+					WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_DEBUG_BIT_ARB,
+				#endif
+				0
+			};
+			this->opengl_rc = wgl.wgl_create_context_attribs_arb(this->hdc, nullptr, attrib);
+			hdk::assert(this->opengl_rc != nullptr, "Failed to create modern opengl context (OpenGL 4.5). Perhaps your graphics card does not support this version?");
+			[[maybe_unused]] BOOL ok = wglMakeCurrent(this->hdc, this->opengl_rc);
+			hdk::assert(ok, "Failed to make modern opengl context current.");
+		}
 	}
 
 //--------------------------------------------------------------------------------------------------

@@ -29,6 +29,7 @@ namespace tge::impl
 
 		HWND hwnd = nullptr;
 		HDC hdc = nullptr;
+		HGLRC opengl_rc = nullptr;
 		bool close_requested = false;
 	};
 	static_assert(tge::window_api<window_winapi>);
