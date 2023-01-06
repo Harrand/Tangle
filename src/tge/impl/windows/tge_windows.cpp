@@ -3,6 +3,8 @@
 
 namespace tge::impl
 {
+	constexpr char wndclass_name[] = "Tangle Windowing Library";
+
 	constexpr WNDCLASSEXA wndclass_gpuacc
 	{
 		.cbSize = sizeof(WNDCLASSEX),
@@ -15,7 +17,7 @@ namespace tge::impl
 		.hCursor = nullptr,
 		.hbrBackground = nullptr,
 		.lpszMenuName = nullptr,
-		.lpszClassName = "Tangle Windowing Library",
+		.lpszClassName = wndclass_name,
 		.hIconSm = nullptr
 	};
 
@@ -28,7 +30,7 @@ namespace tge::impl
 
 	void terminate_windows()
 	{
-		UnregisterClassA(wndclass_gpuacc.lpszClassName, GetModuleHandle(nullptr));
+		UnregisterClassA(wndclass_name, GetModuleHandle(nullptr));
 	}
 
 	LRESULT wndproc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
