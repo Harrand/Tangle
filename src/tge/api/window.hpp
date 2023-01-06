@@ -6,11 +6,11 @@ namespace tge
 {
 	namespace window_flag
 	{
-		enum flag_bit
-		{
-			none = 0x00,
-			opengl = 0x01
-		};
+		using flag_bit = int;
+		static constexpr flag_bit
+		none = 0x00,
+		opengl = 0x01 << 0,
+		transparent = 0x01 << 1;
 	}
 	struct window_info
 	{

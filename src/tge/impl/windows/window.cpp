@@ -2,6 +2,7 @@
 #include "tge/impl/windows/window.hpp"
 #include "tge/impl/windows/tge_windows.hpp"
 #include "hdk/debug.hpp"
+#include <dwmapi.h>
 
 namespace tge::impl
 {
@@ -18,6 +19,17 @@ namespace tge::impl
 			GetModuleHandle(nullptr),
 			this
 		);
+		if(info.window_flags & window_flag::transparent)
+		{
+			DWM_BLURBEHIND bb =
+			{
+				.dwFlags = DWM_BB_ENABLE | DWM_BB_BLURREGION,
+				.fEnable = TRUE,
+				.hRgnBlur = CreateRectRgn(0, 0, -1, -1)
+			};
+			HRESULT res = DwmEnableBlurBehindWindow(this->hwnd, &bb);
+			hdk::assert(SUCCEEDED(res), "Failed to make window transparent");
+		}
 		hdk::assert(this->hwnd != nullptr, "Window creation failed. GetLastError() returns %lu", GetLastError());
 		this->hdc = GetDC(this->hwnd);
 		if(info.window_flags & window_flag::opengl)
@@ -103,9 +115,12 @@ bool window_winapi::make_opengl_context_current()
 			{
 				WGL_DRAW_TO_WINDOW_ARB, GL_TRUE,
 				WGL_SUPPORT_OPENGL_ARB, GL_TRUE,
+				WGL_ACCELERATION_ARB, WGL_FULL_ACCELERATION_EXT,
 				WGL_DOUBLE_BUFFER_ARB, GL_TRUE,
 				WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
+				WGL_TRANSPARENT_ARB, TRUE,
 				WGL_COLOR_BITS_ARB, 24,
+				WGL_ALPHA_BITS_ARB, 8,
 				WGL_DEPTH_BITS_ARB, 24,
 				WGL_STENCIL_BITS_ARB, 8,
 				WGL_FRAMEBUFFER_SRGB_CAPABLE_ARB, GL_TRUE,

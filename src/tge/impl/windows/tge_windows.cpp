@@ -113,7 +113,7 @@ namespace tge::impl
 		{
 			.nSize = sizeof(PIXELFORMATDESCRIPTOR),
 			.nVersion = 1,
-			.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER,
+			.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER | PFD_SUPPORT_COMPOSITION,
 			.iPixelType = PFD_TYPE_RGBA,
 			.cColorBits = 24
 		};
