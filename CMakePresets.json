@@ -1,0 +1,36 @@
+{
+	"version": 4,
+	"cmakeMinimumRequired":
+	{
+		"major": 3,
+		"minor": 23,
+		"patch": 0
+	},
+	"configurePresets":
+	[
+	{
+		"name": "host_debug",
+		"binaryDir": "${sourceDir}/build/${hostSystemName}_debug",
+		"displayName": "${hostSystemName} Debug",
+		"description": "A ${hostSystemName} debug build.",
+		"inherits": [ "debug" ]
+	},
+	{
+		"name": "host_release",
+		"binaryDir": "${sourceDir}/build/${hostSystemName}_release",
+		"displayName": "${hostSystemName} Release",
+		"description": "A ${hostSystemName} release build.",
+		"inherits": [ "release" ]
+	},
+	{
+		"name": "host_profile",
+		"binaryDir": "${sourceDir}/build/${hostSystemName}_profile",
+		"displayName": "${hostSystemName} Profile",
+		"description": "A ${hostSystemName} profile build.",
+		"inherits": [ "profile" ]
+	}
+	],
+	"include": [
+		"lib/HDK/CMakePresets.json"
+	]
+}
