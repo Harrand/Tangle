@@ -1,0 +1,1 @@
+tge_add_executable(TARGET tge_window_demo SOURCES tge_window_demo.cpp)

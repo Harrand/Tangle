@@ -22,5 +22,6 @@ target_include_directories(tangle PUBLIC "${PROJECT_SOURCE_DIR}/src")
 message(STATUS "Tangle v${TGE_VERSION}")
 add_subdirectory(lib)
 
+add_subdirectory(demo)
 enable_testing()
 add_subdirectory(test)
