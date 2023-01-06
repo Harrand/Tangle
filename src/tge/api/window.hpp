@@ -8,9 +8,16 @@ namespace tge
 	{
 		using flag_bit = int;
 		static constexpr flag_bit
+		// Normal window, no special flags.
 		none = 0x00,
+		// Window will create and maintain its own OpenGL context. During the lifetime of a created window, it is valid to call OpenGL functions (OpenGL desktop 4.5).
 		opengl = 0x01 << 0,
-		transparent = 0x01 << 1;
+		// Window will have a transparent background.
+		transparent = 0x01 << 1,
+		// Window will have a smaller title bar, without a maximise/minimise/close button.
+		undecorated = 0x01 << 2,
+		// Window will have no title bar at all.
+		bare = 0x01 << 3;
 	}
 	struct window_info
 	{

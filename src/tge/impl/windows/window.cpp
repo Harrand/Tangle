@@ -8,11 +8,20 @@ namespace tge::impl
 {
 	window_winapi::window_winapi(window_info info)
 	{
+		DWORD style = WS_OVERLAPPEDWINDOW;
+		if(info.window_flags & window_flag::undecorated)
+		{
+			style = WS_CAPTION;
+		}
+		if(info.window_flags & window_flag::bare)
+		{
+			style = WS_POPUPWINDOW;
+		}
 		this->hwnd = CreateWindowExA(
 			0,
 			impl::wndclass_name,
 			info.title,
-			WS_OVERLAPPEDWINDOW,
+			style,
 			CW_USEDEFAULT, CW_USEDEFAULT,
 			info.dimensions[0], info.dimensions[1],
 			nullptr, nullptr,
