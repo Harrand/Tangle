@@ -13,6 +13,8 @@ add_subdirectory(lib/HDK)
 
 hdk_add_library(TARGET tangle
 	SOURCES
+	src/tge/keyboard.cpp
+	src/tge/keyboard.hpp
 	src/tge/tge.hpp
 	src/tge/tge.cpp
 	src/tge/window.hpp
@@ -20,9 +22,10 @@ hdk_add_library(TARGET tangle
 	src/tge/api/keyboard.hpp
 	src/tge/api/window.hpp
 	# tge impl (windows)
-	src/tge/impl/windows/detail/keyboard.cpp
-	src/tge/impl/windows/detail/keyboard.hpp
 	src/tge/impl/windows/detail/winapi.hpp
+	src/tge/impl/windows/keyboard.cpp
+	src/tge/impl/windows/keyboard.hpp
+	src/tge/impl/windows/keyboard.inl
 	src/tge/impl/windows/tge_windows.cpp
 	src/tge/impl/windows/tge_windows.hpp
 	src/tge/impl/windows/window.cpp

@@ -1,7 +1,6 @@
 #include "tge/tge.hpp"
 #include "tge/window.hpp"
-
-#include "tge/impl/windows/detail/keyboard.hpp"
+#include "tge/keyboard.hpp"
 
 int main()
 {
@@ -20,7 +19,7 @@ int main()
 			{
 				if(k != tge::key::unknown)
 				{
-					hdk::report("key \"%s\" pressed", tge::impl::get_key_name(k).c_str());
+					hdk::report("key \"%s\" pressed", tge::get_key_name(k).c_str());
 				}
 			}
 		}

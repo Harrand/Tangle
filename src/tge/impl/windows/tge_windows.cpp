@@ -1,7 +1,7 @@
 #ifdef _WIN32
 #include "tge/impl/windows/tge_windows.hpp"
 #include "tge/impl/windows/window.hpp"
-#include "tge/impl/windows/detail/keyboard.hpp"
+#include "tge/impl/windows/keyboard.hpp"
 #include "hdk/debug.hpp"
 #include <algorithm>
 #include <string_view>
