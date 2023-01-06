@@ -81,6 +81,18 @@ namespace tge::impl
 
 //--------------------------------------------------------------------------------------------------
 
+bool window_winapi::make_opengl_context_current()
+{
+	hdk::assert(this->hdc != nullptr, "Tried to make window opengl context current, but the window was malformed (HDC is invalid)");
+	if(this->opengl_rc == nullptr)
+	{
+		return false;
+	}
+	return wglMakeCurrent(this->hdc, this->opengl_rc);
+}
+
+//--------------------------------------------------------------------------------------------------
+
 	void window_winapi::impl_init_opengl()
 	{
 		tge::impl::wgl_function_data wgl = tge::impl::get_wgl_functions();
@@ -134,6 +146,13 @@ namespace tge::impl
 			[[maybe_unused]] BOOL ok = wglMakeCurrent(this->hdc, this->opengl_rc);
 			hdk::assert(ok, "Failed to make modern opengl context current.");
 		}
+	}
+
+//--------------------------------------------------------------------------------------------------
+
+	bool window_winapi::impl_is_opengl() const
+	{
+		return this->opengl_rc != nullptr;
 	}
 
 //--------------------------------------------------------------------------------------------------

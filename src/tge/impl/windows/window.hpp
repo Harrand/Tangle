@@ -21,10 +21,12 @@ namespace tge::impl
 		hdk::vec2ui get_dimensions() const;
 		void set_dimensions(hdk::vec2ui dimensions);
 		void update();
+		bool make_opengl_context_current();
 		// tge::window_api<> end
 		friend LRESULT wndproc(HWND, UINT, WPARAM, LPARAM);
 	private:
 		void impl_init_opengl();
+		bool impl_is_opengl() const;
 		void impl_request_close();
 
 		HWND hwnd = nullptr;

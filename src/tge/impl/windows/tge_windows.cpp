@@ -70,10 +70,13 @@ namespace tge::impl
 			break;
 			case WM_PAINT:
 			{
-				PAINTSTRUCT ps;
-				HDC hdc = BeginPaint(hwnd, &ps);
-				FillRect(hdc, &ps.rcPaint, CreateSolidBrush(RGB(0, 0, 0)));
-				EndPaint(hwnd, &ps);
+				if(!get_window()->impl_is_opengl())
+				{
+					PAINTSTRUCT ps;
+					HDC hdc = BeginPaint(hwnd, &ps);
+					FillRect(hdc, &ps.rcPaint, CreateSolidBrush(RGB(0, 0, 0)));
+					EndPaint(hwnd, &ps);
+				}
 			}
 			break;
 		}
@@ -96,7 +99,7 @@ namespace tge::impl
 	{
 		hdk::assert(wgl_data == wgl_function_data{}, "Detected WGL functions have already been loaded, but we've been asked to load them a second time. Logic error?");
 		HWND dummy = CreateWindowExA(
-			0, wndclass_name,
+			0, "STATIC",
 			"Dummy Window",
 			WS_OVERLAPPED,
 			CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
