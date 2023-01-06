@@ -22,7 +22,10 @@ namespace tge::impl
 		void set_dimensions(hdk::vec2ui dimensions);
 		void update();
 		// tge::window_api<> end
+		friend LRESULT wndproc(HWND, UINT, WPARAM, LPARAM);
 	private:
+		void impl_request_close();
+
 		HWND hwnd = nullptr;
 		bool close_requested = false;
 	};

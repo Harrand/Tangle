@@ -26,15 +26,13 @@ namespace tge::impl
 
 	window_winapi::~window_winapi()
 	{
-		DestroyWindow(this->hwnd);
-		this->hwnd = nullptr;
+		this->impl_request_close();
 	}
 
 //--------------------------------------------------------------------------------------------------
 	bool window_winapi::is_close_requested() const
 	{
-		hdk::report("Warning: window_winapi::is_close_requested() NYI, returns false always.");
-		return false;
+		return this->close_requested;
 	}
 
 //--------------------------------------------------------------------------------------------------
@@ -65,14 +63,26 @@ namespace tge::impl
 	void window_winapi::update()
 	{
 		MSG msg{};
-		this->close_requested = GetMessage(&msg, nullptr, 0, 0) != 0;
+		this->close_requested = GetMessage(&msg, nullptr, 0, 0) == 0;
 		if(this->close_requested)
 		{
+			hdk::report("close requested!?");
 			return;
 		}
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 		//SwapBuffers(this->hdc);
+	}
+
+//--------------------------------------------------------------------------------------------------
+
+	void window_winapi::impl_request_close()
+	{
+		if(this->hwnd != nullptr)
+		{
+			DestroyWindow(this->hwnd);
+			this->hwnd = nullptr;
+		}
 	}
 }
 
