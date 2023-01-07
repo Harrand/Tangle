@@ -12,4 +12,14 @@ namespace tge
 			return "";
 		#endif
 	}
+
+	std::string get_chars_typed(tge::key key, const keyboard_state& state)
+	{
+		#ifdef _WIN32
+			return tge::impl::get_chars_typed_windows(key, state);
+		#else
+			static_assert(false, "tge::get_chars_typed not implemented for target platform.");
+			return "";
+		#endif
+	}
 }

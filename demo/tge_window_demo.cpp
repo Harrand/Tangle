@@ -19,7 +19,7 @@ int main()
 			{
 				if(k != tge::key::unknown)
 				{
-					hdk::report("key \"%s\" pressed", tge::get_key_name(k).c_str());
+					hdk::report("key \"%s\" pressed", tge::get_chars_typed(k, keystate).c_str());
 				}
 			}
 		}
