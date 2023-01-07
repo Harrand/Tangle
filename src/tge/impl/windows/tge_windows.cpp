@@ -95,6 +95,7 @@ namespace tge::impl
 					auto iter = std::find_if(state.keys_down.begin(), state.keys_down.end(), [](tge::key key){return key == tge::key::unknown;});
 					hdk::assert(iter != state.keys_down.end(), "There are too many keyboard keys down at once (max = %u)", tge::max_simultaneous_key_presses);
 					*iter = k;
+					state.last_key = k;
 				}
 			}
 			break;

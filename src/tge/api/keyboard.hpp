@@ -16,6 +16,9 @@ namespace tge
 	struct keyboard_state
 	{
 		std::array<key, max_simultaneous_key_presses> keys_down;
+		mutable key last_key = key::unknown;
+
+		key get_last_key() const{key k = this->last_key; this->last_key = key::unknown; return k;}
 	};
 }
 

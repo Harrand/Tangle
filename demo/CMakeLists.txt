@@ -1,1 +1,2 @@
+tge_add_executable(TARGET tge_typing_demo SOURCES tge_typing_demo.cpp)
 tge_add_executable(TARGET tge_window_demo SOURCES tge_window_demo.cpp)

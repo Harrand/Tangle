@@ -47,6 +47,8 @@ namespace tge::impl
 		{
 			return static_cast<char>(wc);
 		});
+		reta = reta.c_str();
+		reta.shrink_to_fit();
 		return reta;
 	}
 }
