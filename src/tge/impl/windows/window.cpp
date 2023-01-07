@@ -226,6 +226,13 @@ namespace tge::impl
 	}
 
 //--------------------------------------------------------------------------------------------------
+
+	void* get_opengl_proc_address_windows(const char* name)
+	{
+		return reinterpret_cast<void*>(wglGetProcAddress(name));
+	}
+
+//--------------------------------------------------------------------------------------------------
 }
 
 #endif // WIN32

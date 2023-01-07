@@ -41,6 +41,8 @@ namespace tge::impl
 		mouse_state mouse_state = {};
 	};
 	static_assert(tge::window_api<window_winapi>);
+
+	void* get_opengl_proc_address_windows(const char* name);
 }
 
 #endif // _WIN32
