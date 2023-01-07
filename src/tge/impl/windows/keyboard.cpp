@@ -27,6 +27,7 @@ namespace tge::impl
 		ret.resize(256);
 		// Firstly fill up the keyboard state (all of the 256 virtual keys).
 		std::array<BYTE, 256> win_kb_state;
+
 		std::fill(win_kb_state.begin(), win_kb_state.end(), 0);
 		for(std::size_t i = 0; i < 256; i++)
 		{
@@ -36,6 +37,8 @@ namespace tge::impl
 				win_kb_state[i] = 0xFF;
 			}
 		}
+		// Caps lock is a special case:
+		win_kb_state[VK_CAPITAL] = GetKeyState(VK_CAPITAL);
 		
 		// Secondly, write into the key state.
 		int vkc = tge::impl::tge_to_win_key(key);
