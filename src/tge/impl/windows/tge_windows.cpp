@@ -112,6 +112,10 @@ namespace tge::impl
 					auto iter = std::find_if(state.keys_down.begin(), state.keys_down.end(), [k](tge::key key){return key == k;});
 					hdk::assert(iter != state.keys_down.end(), "Key that's meant to have already been pressed (now up) is not considered pressed. Logic error");
 					*iter = tge::key::unknown;
+					if(state.last_key == k)
+					{
+						state.pop_last_key();
+					}
 				}
 			}
 			break;
