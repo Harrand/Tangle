@@ -16,7 +16,7 @@ int main()
 		{
 			wnd.update();
 			const auto& keystate = wnd.get_keyboard_state();
-			tge::key k = keystate.get_last_key();
+			tge::key k = keystate.pop_last_key();
 			if(k != tge::key::unknown)
 			{
 				std::string cur = tge::get_chars_typed(k, keystate);
