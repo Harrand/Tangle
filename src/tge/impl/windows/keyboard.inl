@@ -181,11 +181,13 @@ namespace tge::impl
 			case VK_OEM_1:
 				k = tge::key::semi_colon;
 			break;
-			case VK_OEM_7:
+			case VK_OEM_3:
 				k = tge::key::apostrophe;
 			break;
-			// case VK_ // unknown for hash
-			case VK_LSHIFT:
+			case VK_OEM_7:
+				k = tge::key::hash;
+			break;
+			case VK_SHIFT:
 				k = tge::key::left_shift;
 			break;
 			case VK_OEM_5:
@@ -224,13 +226,13 @@ namespace tge::impl
 			case VK_RSHIFT:
 				k = tge::key::right_shift;
 			break;
-			case VK_LCONTROL:
+			case VK_CONTROL:
 				k = tge::key::left_ctrl;
 			break;
 			case VK_LWIN:
 				k = tge::key::win_key;
 			break;
-			case VK_LMENU:
+			case VK_MENU:
 				k = tge::key::alt;
 			break;
 			case VK_SPACE:
