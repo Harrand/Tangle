@@ -20,6 +20,7 @@ hdk_add_library(TARGET tangle
 	src/tge/window.hpp
 	# tge api
 	src/tge/api/keyboard.hpp
+	src/tge/api/mouse.hpp
 	src/tge/api/window.hpp
 	# tge impl (windows)
 	src/tge/impl/windows/detail/winapi.hpp

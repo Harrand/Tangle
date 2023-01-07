@@ -15,6 +15,7 @@ int main()
 		while(!wnd.is_close_requested())
 		{
 			wnd.update();
+
 			const auto& keystate = wnd.get_keyboard_state();
 			tge::key k = keystate.pop_last_key();
 			if(k != tge::key::unknown)

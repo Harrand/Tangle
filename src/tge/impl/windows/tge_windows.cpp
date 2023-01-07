@@ -11,7 +11,7 @@ namespace tge::impl
 	constexpr WNDCLASSEXA wndclass_gpuacc
 	{
 		.cbSize = sizeof(WNDCLASSEX),
-		.style = CS_OWNDC,
+		.style = CS_OWNDC | CS_DBLCLKS,
 		.lpfnWndProc = wndproc,
 		.cbClsExtra = 0,
 		.cbWndExtra = 0,
@@ -118,6 +118,42 @@ namespace tge::impl
 					}
 				}
 			}
+			case WM_MOUSEMOVE:
+			{
+				auto& state = get_window()->impl_mutable_mouse_state();
+				WORD x = LOWORD(lparam);
+				WORD y = HIWORD(lparam);
+				state.mouse_position = {static_cast<unsigned int>(LOWORD(lparam)), static_cast<unsigned int>(HIWORD(lparam))};
+			}
+			break;
+			case WM_LBUTTONDBLCLK:
+				get_window()->impl_mutable_mouse_state().button_state[static_cast<int>(mouse_button::left)] = mouse_button_state::double_clicked;
+			break;
+			case WM_LBUTTONDOWN:
+				get_window()->impl_mutable_mouse_state().button_state[static_cast<int>(mouse_button::left)] = mouse_button_state::clicked;
+			break;
+			case WM_LBUTTONUP:
+				get_window()->impl_mutable_mouse_state().button_state[static_cast<int>(mouse_button::left)] = mouse_button_state::noclicked;
+			break;
+
+			case WM_RBUTTONDBLCLK:
+				get_window()->impl_mutable_mouse_state().button_state[static_cast<int>(mouse_button::right)] = mouse_button_state::double_clicked;
+			break;
+			case WM_RBUTTONDOWN:
+				get_window()->impl_mutable_mouse_state().button_state[static_cast<int>(mouse_button::right)] = mouse_button_state::clicked;
+			break;
+			case WM_RBUTTONUP:
+				get_window()->impl_mutable_mouse_state().button_state[static_cast<int>(mouse_button::right)] = mouse_button_state::noclicked;
+			break;
+
+			case WM_MBUTTONDBLCLK:
+				get_window()->impl_mutable_mouse_state().button_state[static_cast<int>(mouse_button::middle)] = mouse_button_state::double_clicked;
+			break;
+			case WM_MBUTTONDOWN:
+				get_window()->impl_mutable_mouse_state().button_state[static_cast<int>(mouse_button::middle)] = mouse_button_state::clicked;
+			break;
+			case WM_MBUTTONUP:
+				get_window()->impl_mutable_mouse_state().button_state[static_cast<int>(mouse_button::middle)] = mouse_button_state::noclicked;
 			break;
 		}
 		return DefWindowProc(hwnd, msg, wparam, lparam);

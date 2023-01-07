@@ -51,6 +51,9 @@ namespace tge::impl
 
 		// Empty keyboard state.
 		std::fill(this->key_state.keys_down.begin(), this->key_state.keys_down.end(), key::unknown);
+		// Empty mouse state.
+		std::fill(this->mouse_state.button_state.begin(), this->mouse_state.button_state.end(), mouse_button_state::noclicked);
+		this->mouse_state.mouse_position = hdk::vec2ui::zero();
 	}
 
 //--------------------------------------------------------------------------------------------------
@@ -121,6 +124,13 @@ namespace tge::impl
 	const keyboard_state& window_winapi::get_keyboard_state() const
 	{
 		return this->key_state;
+	}
+
+//--------------------------------------------------------------------------------------------------
+
+	const mouse_state& window_winapi::get_mouse_state() const
+	{
+		return this->mouse_state;
 	}
 
 //--------------------------------------------------------------------------------------------------
@@ -206,6 +216,13 @@ namespace tge::impl
 	keyboard_state& window_winapi::impl_mutable_keyboard_state()
 	{
 		return this->key_state;
+	}
+
+//--------------------------------------------------------------------------------------------------
+
+	mouse_state& window_winapi::impl_mutable_mouse_state()
+	{
+		return this->mouse_state;
 	}
 
 //--------------------------------------------------------------------------------------------------
