@@ -29,7 +29,7 @@ namespace tge
 	};
 
 	template<typename T>
-	concept window_api = requires(T t, hdk::vec2ui dims)
+	concept window_api = requires(T t, hdk::vec2ui dims, void* addr)
 	{
 		{t.is_close_requested()} -> std::same_as<bool>;
 		{t.get_dimensions()} -> std::same_as<hdk::vec2ui>;
@@ -38,6 +38,8 @@ namespace tge
 		{t.make_opengl_context_current()} -> std::same_as<bool>;
 		{t.get_keyboard_state()} -> std::convertible_to<keyboard_state>;
 		{t.get_mouse_state()} -> std::convertible_to<mouse_state>;
+		{t.get_user_data()} -> std::convertible_to<void*>;
+		{t.set_user_data(addr)} -> std::same_as<void>;
 	};
 }
 

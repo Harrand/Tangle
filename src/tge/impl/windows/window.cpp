@@ -139,6 +139,20 @@ namespace tge::impl
 
 //--------------------------------------------------------------------------------------------------
 
+	void* window_winapi::get_user_data() const
+	{
+		return this->userdata;
+	}
+
+//--------------------------------------------------------------------------------------------------
+
+	void window_winapi::set_user_data(void* udata)
+	{
+		this->userdata = udata;
+	}
+
+//--------------------------------------------------------------------------------------------------
+
 	void window_winapi::impl_init_opengl()
 	{
 		tge::impl::wgl_function_data wgl = tge::impl::get_wgl_functions();
