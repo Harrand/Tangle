@@ -65,6 +65,14 @@ namespace tge::impl
 	}
 
 //--------------------------------------------------------------------------------------------------
+
+	window_winapi::native window_winapi::get_native() const
+	{
+		return this->hwnd;
+	}
+
+//--------------------------------------------------------------------------------------------------
+
 	bool window_winapi::is_close_requested() const
 	{
 		return this->close_requested;

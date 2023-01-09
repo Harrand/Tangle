@@ -17,6 +17,8 @@ namespace tge::impl
 		window_winapi& operator=(window_winapi&& rhs) = delete;
 
 		// tge::window_api<> begin
+		using native = HWND;
+		native get_native() const;
 		bool is_close_requested() const;
 		hdk::vec2ui get_dimensions() const;
 		void set_dimensions(hdk::vec2ui dimensions);

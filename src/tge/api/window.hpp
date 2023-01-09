@@ -31,6 +31,8 @@ namespace tge
 	template<typename T>
 	concept window_api = requires(T t, hdk::vec2ui dims, void* addr)
 	{
+		typename T::native;
+		{t.get_native()} -> std::convertible_to<typename T::native>;
 		{t.is_close_requested()} -> std::same_as<bool>;
 		{t.get_dimensions()} -> std::same_as<hdk::vec2ui>;
 		{t.set_dimensions(dims)} -> std::same_as<void>;
