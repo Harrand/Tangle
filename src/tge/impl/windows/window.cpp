@@ -19,6 +19,18 @@ namespace tge::impl
 		{
 			style = WS_POPUPWINDOW;
 		}
+		if(info.window_flags & window_flag::noresize && style & WS_THICKFRAME)
+		{
+			style ^= WS_THICKFRAME;
+		}
+		if(info.window_flags & window_flag::nomaximise && style & WS_MAXIMIZEBOX)
+		{
+			style ^= WS_MAXIMIZEBOX;
+		}
+		if(info.window_flags & window_flag::nominimise && style & WS_MINIMIZEBOX)
+		{
+			style ^= WS_MINIMIZEBOX;
+		}
 		this->hwnd = CreateWindowExA(
 			0,
 			impl::wndclass_name,

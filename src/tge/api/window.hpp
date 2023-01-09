@@ -6,20 +6,29 @@
 
 namespace tge
 {
+	/**
+	 * Represents an optional setting for a `tge::window`. For default behaviour, refer to @ref window_flag::none
+	 */
 	namespace window_flag
 	{
 		using flag_bit = int;
 		static constexpr flag_bit
-		// Normal window, no special flags.
+		/// Normal window, no special flags.
 		none = 0x00,
-		// Window will create and maintain its own OpenGL context. During the lifetime of a created window, it is valid to call OpenGL functions (OpenGL desktop 4.5).
+		/// Window will create and maintain its own OpenGL context. During the lifetime of a created window, it is valid to call OpenGL functions (OpenGL desktop 4.5).
 		opengl = 0x01 << 0,
-		// Window will have a transparent background.
+		/// Window will have a transparent background.
 		transparent = 0x01 << 1,
-		// Window will have a smaller title bar, without a maximise/minimise/close button.
+		/// Window will have a smaller title bar, without a maximise/minimise/close button.
 		undecorated = 0x01 << 2,
-		// Window will have no title bar at all.
-		bare = 0x01 << 3;
+		/// Window will have no title bar at all.
+		bare = 0x01 << 3,
+		/// Window is not resizeable.
+		noresize = 0x01 << 4,
+		/// Window cannot be maximised.
+		nomaximise = 0x01 << 5,
+		/// Window cannot be minimised.
+		nominimise = 0x01 << 6;
 	}
 	struct window_info
 	{

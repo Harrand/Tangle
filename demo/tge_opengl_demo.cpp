@@ -10,7 +10,7 @@ int main()
 		tge::window wnd
 		{{
 			.title = "Tangle Window Demo",
-			.window_flags = tge::window_flag::opengl | tge::window_flag::transparent
+			.window_flags = tge::window_flag::opengl | tge::window_flag::transparent | tge::window_flag::nominimise
 		}};
 		bool ret = gladLoadGLLoader(reinterpret_cast<GLADloadproc>(tge::get_opengl_proc_address));
 		hdk::assert(ret);
