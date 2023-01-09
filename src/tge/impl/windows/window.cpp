@@ -229,7 +229,15 @@ namespace tge::impl
 
 	void* get_opengl_proc_address_windows(const char* name)
 	{
-		return reinterpret_cast<void*>(wglGetProcAddress(name));
+		// wglGetProcAddress won't work for legacy ogl functions, many of which are still used in modern ogl.
+		void *p = (void*)wglGetProcAddress(name);
+		// Epic microsoft moment: Doesn't necessarily return nullptr on failure, could return something real small (nice one guys). If so, load from ogl 1.1 dll which is guaranteed to be opengl32.dll.
+		if(p == nullptr || (p == (void*)0x1) || (p == (void*)0x2) || (p == (void*)0x3) || (p == (void*)-1) )
+		{
+			HMODULE module = LoadLibraryA("opengl32.dll");
+			p = (void *)GetProcAddress(module, name);
+		}
+		return p;
 	}
 
 //--------------------------------------------------------------------------------------------------
