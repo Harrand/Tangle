@@ -2,6 +2,7 @@
 #include "tge/impl/windows/window.hpp"
 #include "tge/impl/windows/tge_windows.hpp"
 #include "hdk/debug.hpp"
+#include "hdk/profile.hpp"
 #include <dwmapi.h>
 #include <algorithm>
 
@@ -96,14 +97,21 @@ namespace tge::impl
 
 	void window_winapi::update()
 	{
+		HDK_PROFZONE("window - update", 0xffff0000);
 		MSG msg{};
-		this->close_requested = GetMessage(&msg, nullptr, 0, 0) == 0;
+		if(PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+		{
+			if(msg.message == WM_QUIT)
+			{
+				this->close_requested = true;
+			}
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
 		if(this->close_requested)
 		{
 			return;
 		}
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
 		SwapBuffers(this->hdc);
 	}
 
@@ -190,6 +198,7 @@ namespace tge::impl
 			hdk::assert(this->opengl_rc != nullptr, "Failed to create modern opengl context (OpenGL 4.5). Perhaps your graphics card does not support this version?");
 			[[maybe_unused]] BOOL ok = wglMakeCurrent(this->hdc, this->opengl_rc);
 			hdk::assert(ok, "Failed to make modern opengl context current.");
+			wgl.wgl_swap_interval_ext(0);
 		}
 	}
 

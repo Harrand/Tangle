@@ -1,6 +1,7 @@
 #include "glad/glad.h"
 #include "tge/tge.hpp"
 #include "tge/window.hpp"
+#include "hdk/profile.hpp"
 
 int main()
 {
@@ -9,7 +10,7 @@ int main()
 		tge::window wnd
 		{{
 			.title = "Tangle Window Demo",
-			.window_flags = tge::window_flag::opengl | tge::window_flag::transparent | tge::window_flag::bare
+			.window_flags = tge::window_flag::opengl | tge::window_flag::transparent
 		}};
 		bool ret = gladLoadGLLoader(reinterpret_cast<GLADloadproc>(tge::get_opengl_proc_address));
 		hdk::assert(ret);
@@ -67,10 +68,13 @@ int main()
 
 		while(!wnd.is_close_requested())
 		{
+			HDK_FRAME_BEGIN;
 			glClear(GL_COLOR_BUFFER_BIT);
+			glViewport(0, 0, wnd.get_dimensions()[0], wnd.get_dimensions()[1]);
 			glUseProgram(program);
 			glDrawArrays(GL_TRIANGLES, 0, 3);
 			wnd.update();
+			HDK_FRAME_END;
 		}
 
 		glDeleteVertexArrays(1, &vao);

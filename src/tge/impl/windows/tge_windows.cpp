@@ -3,6 +3,7 @@
 #include "tge/impl/windows/window.hpp"
 #include "tge/impl/windows/keyboard.hpp"
 #include "hdk/debug.hpp"
+#include "hdk/profile.hpp"
 #include <algorithm>
 #include <string_view>
 
@@ -48,6 +49,7 @@ namespace tge::impl
 
 	LRESULT wndproc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 	{
+		HDK_PROFZONE("Tangle - win32 wndproc", 0xffff0000);
 		auto get_window = [hwnd]()
 		{
 			auto wnd = reinterpret_cast<window_winapi*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
@@ -73,6 +75,7 @@ namespace tge::impl
 			break;
 			case WM_PAINT:
 			{
+				HDK_PROFZONE("Tangle - win32 wndproc paint", 0xffff00ff);
 				if(!get_window()->impl_is_opengl())
 				{
 					PAINTSTRUCT ps;
