@@ -101,10 +101,6 @@ namespace tge::impl
 		MSG msg{};
 		if(PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 		{
-			if(msg.message == WM_QUIT)
-			{
-				this->close_requested = true;
-			}
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
@@ -213,6 +209,7 @@ namespace tge::impl
 
 	void window_winapi::impl_request_close()
 	{
+		this->close_requested = true;
 		if(this->hwnd != nullptr)
 		{
 			DestroyWindow(this->hwnd);
