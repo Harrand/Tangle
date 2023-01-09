@@ -115,6 +115,24 @@ namespace tge::impl
 
 //--------------------------------------------------------------------------------------------------
 
+	std::string window_winapi::get_title() const
+	{
+		std::string ret;
+		ret.resize(GetWindowTextLengthA(this->hwnd));
+		GetWindowTextA(this->hwnd, ret.data(), ret.size());
+		return ret;
+	}
+
+//--------------------------------------------------------------------------------------------------
+
+	void window_winapi::set_title(std::string title)
+	{
+		[[maybe_unused]] bool ok = SetWindowTextA(this->hwnd, title.data());	
+		hdk::assert(ok, "Failed to set window title to \"%s\", GetLastError() returned %lu", title.data(), GetLastError());
+	}
+
+//--------------------------------------------------------------------------------------------------
+
 	void window_winapi::update()
 	{
 		HDK_PROFZONE("window - update", 0xffff0000);

@@ -22,6 +22,8 @@ namespace tge::impl
 		bool is_close_requested() const;
 		hdk::vec2ui get_dimensions() const;
 		void set_dimensions(hdk::vec2ui dimensions);
+		std::string get_title() const;
+		void set_title(std::string title);
 		void update();
 		bool make_opengl_context_current();
 		const keyboard_state& get_keyboard_state() const;

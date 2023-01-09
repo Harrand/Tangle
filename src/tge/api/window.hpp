@@ -38,13 +38,15 @@ namespace tge
 	};
 
 	template<typename T>
-	concept window_api = requires(T t, hdk::vec2ui dims, void* addr)
+	concept window_api = requires(T t, hdk::vec2ui dims, void* addr, std::string str)
 	{
 		typename T::native;
 		{t.get_native()} -> std::convertible_to<typename T::native>;
 		{t.is_close_requested()} -> std::same_as<bool>;
 		{t.get_dimensions()} -> std::same_as<hdk::vec2ui>;
 		{t.set_dimensions(dims)} -> std::same_as<void>;
+		{t.get_title()} -> std::convertible_to<std::string>;
+		{t.set_title(str)} -> std::same_as<void>;
 		{t.update()} -> std::same_as<void>;
 		{t.make_opengl_context_current()} -> std::same_as<bool>;
 		{t.get_keyboard_state()} -> std::convertible_to<keyboard_state>;

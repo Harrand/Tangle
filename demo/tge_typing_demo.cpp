@@ -33,7 +33,7 @@ int main()
 				{
 					msg += cur;
 				}
-				std::printf("%s               \r", msg.c_str());
+				wnd.set_title(msg);
 			}
 		}
 	}
