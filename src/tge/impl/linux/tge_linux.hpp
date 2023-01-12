@@ -5,8 +5,15 @@
 
 namespace tge::impl
 {
+	struct x11_display_data
+	{
+		Display* display = nullptr;
+		int screen = 0;
+	};
 	void initialise_linux();
 	void terminate_linux();
+
+	x11_display_data& x11_display();
 }
 
 #endif // __linux__
