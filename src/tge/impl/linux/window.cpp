@@ -1,5 +1,6 @@
 #ifdef __linux__
 #include "tge/impl/linux/window.hpp"
+#include <X11/Xatom.h>
 
 namespace tge::impl
 {
@@ -10,6 +11,18 @@ namespace tge::impl
 		this->set_title(info.title);
 		XSelectInput(x11d.display, this->wnd, ExposureMask | KeyPressMask);
 		XMapWindow(x11d.display, this->wnd);
+
+		Atom protocols[] = {XInternAtom(x11d.display, "WM_DELETE_WINDOW", False)};
+		XSetWMProtocols(x11d.display, this->wnd, protocols, sizeof(protocols) / sizeof(Atom));
+	}
+
+	window_x11::~window_x11()
+	{
+		if(this->wnd != -1)
+		{
+			this->request_close();
+			this->wnd = -1;
+		}
 	}
 
 	window_x11::native window_x11::get_native() const
@@ -19,7 +32,7 @@ namespace tge::impl
 
 	bool window_x11::is_close_requested() const
 	{
-		return false;
+		return this->close_requested;
 	}
 
 	hdk::vec2ui window_x11::get_dimensions() const
@@ -55,12 +68,25 @@ namespace tge::impl
 		XNextEvent(x11d.display, &e);
 		if(e.type == Expose)
 		{
+			/*
 			auto dims = this->get_dimensions();
 			XFillRectangle(x11d.display, this->wnd, DefaultGC(x11d.display, x11d.screen), 0, 0, dims[0], dims[1]);
+			*/
 		}
 		if(e.type == KeyPress)
 		{
-
+			this->request_close();
+		}
+		if(e.type == ClientMessage)
+		{
+			const Atom protocol = e.xclient.data.l[0];
+			if(protocol != None)
+			{
+				if(protocol == XInternAtom(impl::x11_display().display, "WM_DELETE_WINDOW", False))
+				{
+					this->request_close();
+				}
+			}
 		}
 	}
 
@@ -87,6 +113,24 @@ namespace tge::impl
 	void window_x11::set_user_data(void* udata)
 	{
 		this->userdata = udata;
+	}
+
+	void window_x11::request_close()
+	{
+		XUnmapWindow(impl::x11_display().display, this->wnd);
+		XDestroyWindow(impl::x11_display().display, this->wnd);
+		XFlush(impl::x11_display().display);
+		this->close_requested = true;
+		this->wnd = -1;
+		//XClientMessageEvent msg;
+		//msg.type = ClientMessage;
+		//msg.window = this->wnd;
+		//msg.message_type = XInternAtom(impl::x11_display().display, "WM_DELETE_WINDOW", False);
+		//msg.format = 32;
+		//msg.data.l[0] = this->wnd;
+		//msg.data.l[1] = CurrentTime;
+		//XSendEvent(impl::x11_display().display, this->wnd, False, NoEventMask, reinterpret_cast<XEvent*>(&msg));
+		//hdk::report("die please");
 	}
 }
 

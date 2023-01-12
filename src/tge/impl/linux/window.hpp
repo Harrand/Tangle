@@ -12,7 +12,7 @@ namespace tge::impl
 		window_x11(window_info info);
 		window_x11(const window_x11& copy) = delete;
 		window_x11(window_x11&& move) = delete;
-		~window_x11() = default;
+		~window_x11();
 		window_x11& operator=(const window_x11& rhs) = delete;
 		window_x11& operator=(window_x11&& rhs) = delete;
 
@@ -32,10 +32,13 @@ namespace tge::impl
 		void set_user_data(void* udata);
 		// tge::window_api<> end
 	private:
+		void request_close();
+
 		Window wnd;
 		void* userdata = nullptr;
 		keyboard_state kb_state = {};
 		mouse_state m_state = {};
+		bool close_requested = false;
 	};
 	static_assert(tge::window_api<window_x11>);
 }

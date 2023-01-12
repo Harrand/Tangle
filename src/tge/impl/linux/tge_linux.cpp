@@ -18,6 +18,7 @@ namespace tge::impl
 	{
 		XCloseDisplay(x11d.display);
 		x11d.display = nullptr;
+		hdk::report("Terminated on Linux!");
 	}
 
 	x11_display_data& x11_display()
