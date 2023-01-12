@@ -22,6 +22,11 @@ hdk_add_library(TARGET tangle
 	src/tge/api/keyboard.hpp
 	src/tge/api/mouse.hpp
 	src/tge/api/window.hpp
+	# tge impl (linux)
+	src/tge/impl/linux/keyboard.cpp
+	src/tge/impl/linux/keyboard.hpp
+	src/tge/impl/linux/tge_linux.cpp
+	src/tge/impl/linux/tge_linux.hpp
 	# tge impl (windows)
 	src/tge/impl/windows/detail/winapi.hpp
 	src/tge/impl/windows/keyboard.cpp
@@ -35,6 +40,8 @@ hdk_add_library(TARGET tangle
 target_include_directories(tangle PUBLIC "${PROJECT_SOURCE_DIR}/src")
 if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
 	configure_windows(tangle)
+else()
+	configure_linux(tangle)
 endif()
 
 message(STATUS "Tangle v${TGE_VERSION}")
