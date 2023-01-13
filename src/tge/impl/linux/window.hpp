@@ -3,6 +3,8 @@
 #ifdef __linux__
 #include "tge/api/window.hpp"
 #include "tge/impl/linux/tge_linux.hpp"
+#include <GL/glx.h>
+#include <optional>
 
 namespace tge::impl
 {
@@ -32,12 +34,14 @@ namespace tge::impl
 		void set_user_data(void* udata);
 		// tge::window_api<> end
 	private:
-		void request_close();
+		void impl_request_close();
+		void impl_init_opengl();
 
 		Window wnd;
 		void* userdata = nullptr;
 		keyboard_state kb_state = {};
 		mouse_state m_state = {};
+		GLXContext ctx = nullptr;
 		bool close_requested = false;
 	};
 	static_assert(tge::window_api<window_x11>);
