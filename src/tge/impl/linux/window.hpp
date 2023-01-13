@@ -45,6 +45,7 @@ namespace tge::impl
 		bool close_requested = false;
 	};
 	static_assert(tge::window_api<window_x11>);
+	void* get_opengl_proc_address_linux(const char* name);
 }
 
 #endif // __linux__

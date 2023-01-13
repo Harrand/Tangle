@@ -15,7 +15,7 @@ namespace tge
 		using window = impl::window_x11;
 		inline void* get_opengl_proc_address(const char* name)
 		{
-			return nullptr;
+			return impl::get_opengl_proc_address_linux(name);
 		}
 	#else
 		static_assert(false, "Window Implementation does not seem to exist for this platform.");

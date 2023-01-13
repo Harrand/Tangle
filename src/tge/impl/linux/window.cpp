@@ -3,6 +3,7 @@
 #include "tge/impl/linux/window.hpp"
 #include <GL/glxext.h>
 #include <X11/Xatom.h>
+#include <cstring>
 
 namespace tge::impl
 {
@@ -16,6 +17,10 @@ namespace tge::impl
 
 		Atom protocols[] = {XInternAtom(x11d.display, "WM_DELETE_WINDOW", False)};
 		XSetWMProtocols(x11d.display, this->wnd, protocols, sizeof(protocols) / sizeof(Atom));
+		if(info.window_flags & window_flag::opengl)
+		{
+			this->impl_init_opengl();
+		}
 	}
 
 	window_x11::~window_x11()
@@ -129,13 +134,64 @@ namespace tge::impl
 		this->wnd = -1;
 	}
 
+	static bool is_extension_supported(const char *extList, const char *extension)
+	{
+		const char *start;
+		const char *where, *terminator;
+	  
+		/* Extension names should not have spaces. */
+		where = strchr(extension, ' ');
+		if (where || *extension == '\0')
+			return false;
+
+	  /* It takes a bit of care to be fool-proof about parsing the
+		 OpenGL extensions string. Don't be fooled by sub-strings,
+		 etc. */
+		for (start=extList;;)
+		{
+			where = strstr(start, extension);
+
+			if (!where)
+				break;
+
+			terminator = where + strlen(extension);
+
+			if( where == start || *(where - 1) == ' ' )
+				if ( *terminator == ' ' || *terminator == '\0' )
+					return true;
+			start = terminator;
+		}
+
+		return false;
+	}
+
 	void window_x11::impl_init_opengl()
 	{
 		const auto& x11d = impl::x11_display();
 		constexpr int maj = 4, min = 5;
 		int nelements;
 		GLXFBConfig* fb_configs = glXChooseFBConfig(x11d.display, x11d.screen, nullptr, &nelements);
-		hdk::assert(fb_configs != nullptr, "Failed to choose framebuffer config for OpenGL context.");
+		hdk::assert(fb_configs != nullptr, "Failed to retrieve any framebuffer configs for OpenGL context.");
+		// Let's go through and choose one, instead of at random.
+		GLXFBConfig best_config = fb_configs[0];
+		int best_sample_count;
+		glXGetFBConfigAttrib(x11d.display, best_config, GLX_SAMPLES, &best_sample_count);
+		for(int i = 0; i < nelements; i++)
+		{
+			XVisualInfo* vi = glXGetVisualFromFBConfig(x11d.display, fb_configs[i]);
+			if(vi != nullptr)
+			{
+				int samp_buf, samples;
+				glXGetFBConfigAttrib(x11d.display, fb_configs[i], GLX_SAMPLE_BUFFERS, &samp_buf);
+				glXGetFBConfigAttrib(x11d.display, fb_configs[i], GLX_SAMPLES, &samples);
+				if(samp_buf && samples > best_sample_count)
+				{
+					best_sample_count = samples;
+					best_config = fb_configs[i];
+				}
+			}
+		}
+		XFree(fb_configs);
 		int attribs[] =
 		{
 			GLX_CONTEXT_MAJOR_VERSION_ARB, maj,
@@ -143,10 +199,19 @@ namespace tge::impl
 			GLX_CONTEXT_PROFILE_MASK_ARB, GLX_CONTEXT_CORE_PROFILE_BIT_ARB,
 			None
 		};
-		this->ctx = glXCreateContextAttribsARB(x11d.display, fb_configs[0], nullptr, True, attribs);
+		const char *glx_exts = glXQueryExtensionsString(x11d.display, x11d.screen);
+		if(!is_extension_supported(glx_exts, "GLX_ARB_create_context") || !glXCreateContextAttribsARB)
+		{
+			hdk::error("glXCreateContextAttribsARB is not supported/available. Cannot create OpenGL context.");
+		}
+		this->ctx = glXCreateContextAttribsARB(x11d.display, best_config, nullptr, True, attribs);
 		hdk::assert(this->ctx != nullptr, "Could create OpenGL context :(");
-		XFree(fb_configs);
 		this->make_opengl_context_current();	
+	}
+
+	void* get_opengl_proc_address_linux(const char* name)
+	{
+		return (void*)glXGetProcAddress((const GLubyte*)name);
 	}
 }
 
