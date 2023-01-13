@@ -42,7 +42,20 @@ namespace tge::impl
 
 	void terminate_windows()
 	{
+		PostQuitMessage(0);
 		UnregisterClassA(wndclass_name, GetModuleHandle(nullptr));
+	}
+
+//--------------------------------------------------------------------------------------------------
+
+	void update_windows()
+	{
+		MSG msg{};
+		if(PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+		{
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
 	}
 
 //--------------------------------------------------------------------------------------------------
@@ -71,7 +84,6 @@ namespace tge::impl
 				return FALSE;
 			break;
 			case WM_DESTROY:
-				PostQuitMessage(0);
 			break;
 			case WM_PAINT:
 			{

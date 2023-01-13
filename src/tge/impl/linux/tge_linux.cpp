@@ -1,10 +1,12 @@
 #ifdef __linux__
 #include "tge/impl/linux/tge_linux.hpp"
 #include "hdk/debug.hpp"
+#include <optional>
 
 namespace tge::impl
 {
 	static x11_display_data x11d = {};
+	static std::optional<XEvent> evt = std::nullopt;
 
 	void initialise_linux()
 	{
@@ -21,9 +23,24 @@ namespace tge::impl
 		hdk::report("Terminated on Linux!");
 	}
 
+	void update_linux()
+	{
+		evt = XEvent{};
+		XNextEvent(x11d.display, &evt.value());
+	}
+
 	x11_display_data& x11_display()
 	{
 		return x11d;
+	}
+
+	XEvent* get_current_event()
+	{
+		if(evt.has_value())
+		{
+			return &evt.value();
+		}
+		return nullptr;
 	}
 }
 

@@ -7,16 +7,14 @@ int main()
 {
 	tge::initialise();
 	{
-		tge::window wnd
-		{{
-			.title = "Tangle Typing Demo"
-		}};
+		tge::window_handle wnd = tge::create_window({.title = "Tangle Typing Demo"});
 		std::string msg = "";
-		while(!wnd.is_close_requested())
+		while(!tge::get_window(wnd).is_close_requested())
 		{
-			wnd.update();
+			tge::update();
+			tge::get_window(wnd).update();
 
-			const auto& keystate = wnd.get_keyboard_state();
+			const auto& keystate = tge::get_window(wnd).get_keyboard_state();
 			tge::key k = keystate.pop_last_key();
 			if(k != tge::key::unknown)
 			{
@@ -33,7 +31,7 @@ int main()
 				{
 					msg += cur;
 				}
-				wnd.set_title(msg);
+				tge::get_window(wnd).set_title(msg);
 			}
 		}
 	}

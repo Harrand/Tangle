@@ -11,6 +11,7 @@ namespace tge::impl
 
 	void initialise_windows();
 	void terminate_windows();
+	void update_windows();
 	LRESULT wndproc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 
 	struct wgl_function_data

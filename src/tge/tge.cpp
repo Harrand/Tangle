@@ -25,4 +25,13 @@ namespace tge
 		#endif
 		hdk::terminate();
 	}
+
+	void update()
+	{
+		#ifdef _WIN32
+			tge::impl::update_windows();
+		#elif defined(__linux__)
+			tge::impl::update_linux();	
+		#endif
+	}
 }

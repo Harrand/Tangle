@@ -1,10 +1,12 @@
 #ifndef TANGLE_TGE_HPP
 #define TANGLE_TGE_HPP
+#include "hdk/data/handle.hpp"
 
 namespace tge
 {
 	void initialise();
 	void terminate();
+	void update();
 
 	enum class platform
 	{

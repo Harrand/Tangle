@@ -69,6 +69,7 @@ int main()
 		while(!wnd.is_close_requested())
 		{
 			HDK_FRAME_BEGIN;
+			tge::update();
 			glClear(GL_COLOR_BUFFER_BIT);
 			glViewport(0, 0, wnd.get_dimensions()[0], wnd.get_dimensions()[1]);
 			glUseProgram(program);

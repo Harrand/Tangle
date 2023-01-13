@@ -136,12 +136,6 @@ namespace tge::impl
 	void window_winapi::update()
 	{
 		HDK_PROFZONE("window - update", 0xffff0000);
-		MSG msg{};
-		if(PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
-		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
 		if(this->close_requested)
 		{
 			return;

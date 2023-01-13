@@ -12,8 +12,10 @@ namespace tge::impl
 	};
 	void initialise_linux();
 	void terminate_linux();
+	void update_linux();
 
 	x11_display_data& x11_display();
+	XEvent* get_current_event();
 }
 
 #endif // __linux__

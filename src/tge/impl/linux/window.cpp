@@ -71,8 +71,9 @@ namespace tge::impl
 	void window_x11::update()
 	{
 		const auto& x11d = impl::x11_display();
-		XEvent e;
-		XNextEvent(x11d.display, &e);
+		XEvent* evt = impl::get_current_event();
+		if(evt == nullptr || evt->xclient.window != this->wnd) return;
+		XEvent e = *evt;
 		if(e.type == Expose)
 		{
 			/*
@@ -88,7 +89,7 @@ namespace tge::impl
 			const Atom protocol = e.xclient.data.l[0];
 			if(protocol != None)
 			{
-				if(protocol == XInternAtom(impl::x11_display().display, "WM_DELETE_WINDOW", False))
+				if(protocol == XInternAtom(impl::x11_display().display, "WM_DELETE_WINDOW", False) && e.xclient.window == this->wnd)
 				{
 					this->impl_request_close();
 				}
