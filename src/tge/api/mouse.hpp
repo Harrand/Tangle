@@ -23,6 +23,7 @@ namespace tge
 	{
 		std::array<mouse_button_state, static_cast<int>(mouse_button::_count)> button_state;
 		hdk::vec2ui mouse_position;
+		int wheel_position = 0;
 	};
 }
 

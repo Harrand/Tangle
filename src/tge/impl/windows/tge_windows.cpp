@@ -158,6 +158,9 @@ namespace tge::impl
 			case WM_MBUTTONUP:
 				get_window()->impl_mutable_mouse_state().button_state[static_cast<int>(mouse_button::middle)] = mouse_button_state::noclicked;
 			break;
+			case WM_MOUSEWHEEL:
+				get_window()->impl_mutable_mouse_state().wheel_position += GET_WHEEL_DELTA_WPARAM(wparam) / WHEEL_DELTA;
+			break;
 		}
 		return DefWindowProc(hwnd, msg, wparam, lparam);
 	}
