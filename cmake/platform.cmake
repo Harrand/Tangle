@@ -7,6 +7,6 @@ function(configure_linux target)
 	message(WARNING "Support for Linux is not yet fully implemented")
 	find_package(X11 REQUIRED)
 	find_package(OpenGL REQUIRED)
-
-	target_link_libraries(${target} PUBLIC X11 OpenGL::GL)
+	# Xrandr for retrieving monitor info.
+	target_link_libraries(${target} PUBLIC X11 X11::Xrandr OpenGL::GL)
 endfunction()

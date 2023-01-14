@@ -15,6 +15,8 @@ hdk_add_library(TARGET tangle
 	SOURCES
 	src/tge/keyboard.cpp
 	src/tge/keyboard.hpp
+	src/tge/monitor.cpp
+	src/tge/monitor.hpp
 	src/tge/tge.hpp
 	src/tge/tge.cpp
 	src/tge/window.cpp
@@ -27,6 +29,8 @@ hdk_add_library(TARGET tangle
 	# tge impl (linux)
 	src/tge/impl/linux/keyboard.cpp
 	src/tge/impl/linux/keyboard.hpp
+	src/tge/impl/linux/monitor.cpp
+	src/tge/impl/linux/monitor.hpp
 	src/tge/impl/linux/tge_linux.cpp
 	src/tge/impl/linux/tge_linux.hpp
 	src/tge/impl/linux/window.cpp
@@ -36,6 +40,8 @@ hdk_add_library(TARGET tangle
 	src/tge/impl/windows/keyboard.cpp
 	src/tge/impl/windows/keyboard.hpp
 	src/tge/impl/windows/keyboard.inl
+	src/tge/impl/windows/monitor.cpp
+	src/tge/impl/windows/monitor.hpp
 	src/tge/impl/windows/tge_windows.cpp
 	src/tge/impl/windows/tge_windows.hpp
 	src/tge/impl/windows/window.cpp
