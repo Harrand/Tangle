@@ -16,6 +16,10 @@ namespace tge::impl
 			.name = minfo.szDevice,
 			.dimensions = static_cast<hdk::vec2ui>(dims)
 		});
+		if(hmon == MonitorFromPoint(POINT{0, 0}, MONITOR_DEFAULTTOPRIMARY))
+		{
+			std::swap(mons->front(), mons->back());
+		}
 		return TRUE;
 	}
 	std::vector<tge::monitor> get_monitors_windows()

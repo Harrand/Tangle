@@ -1,12 +1,14 @@
 #include "tge/tge.hpp"
 #include "tge/window.hpp"
 #include "tge/keyboard.hpp"
+#include "tge/monitor.hpp"
 
 int main()
 {
 	tge::initialise();
 	{
 		tge::window_handle wnd = tge::create_window();
+		auto mons = tge::get_monitors();
 		while(!tge::get_window(wnd).is_close_requested())
 		{
 				tge::update();
